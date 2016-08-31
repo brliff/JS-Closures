@@ -12,12 +12,22 @@ var outer = function(){
 // Invoke outer saving the return value into another variable called 'inner'.
 
 // Code Here
-
+var inner = outer();
+/*
+* function inner(){
+* return 'The original name was ' + name;
+* }
+* };
+* */
 
 //Once you do that, invoke inner.
 
   //Code Here
+inner();
+// The original name was Tyler
 
+var tylerName = inner();
+// value of tylerName is "The original name was Tyler".
 
 
 //////////////////PROBLEM 2////////////////////
@@ -36,11 +46,10 @@ var callFriend = function(){
 // Create a makeCall function that when invoked logs  'Calling Jake at 435-215-9248' in your console.
 
   //Code Here
-
-
-
-
-
+function makeCall() {
+  var callJake = callFriend();
+  console.log(callJake('435-215-9248'));
+}
 
 
 //////////////////PROBLEM 3////////////////////
@@ -52,13 +61,19 @@ var callFriend = function(){
 */
 
 //Code Here
+function makeCounter() {
+  var num = 1;
+  return function() {
+    return num++;
+  }
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -74,12 +89,17 @@ var callFriend = function(){
 function counterFactory(value) {
 
   // Code here.
-
-
   return {
+    inc: function(){
+      value++;
+      return value;
+    },
+    dec: function(){
+      value--;
+      return value;
+    }
   }
 }
-
 
 counter = counterFactory(10);
 
@@ -96,14 +116,16 @@ counter = counterFactory(10);
     var welcomeText = 'You\'re doing awesome, keep it up ';
 
     // code message function here.
-
+    function message() {
+      return welcomeText + firstname + ' ' + lastname + '.';
+    }
 
     //Uncommment this to return the value of your invoked message function
 
-    //return message()
+    return message();
   }
 
-  motivation('Billy', 'Bob'); // 'Your doing awesome keep it up Billy Bob
+  motivation('Brain', 'Bob'); // 'Your doing awesome keep it up Billy Bob
 
 
 
@@ -127,43 +149,96 @@ counter = counterFactory(10);
 
     return {
       // Code here.
+      publicMethod: function(){
+        return privateMethod();
+      }
     };
 
   })();
 
 //Uncomment this after you create your public method
-//   module.publicMethod();
+  module.publicMethod();
 
 
 
 //////////////////PROBLEM 7////////////////////
-// Here we have a for loop that will iterate as long as i is less than or equal to 5. What we need to do is console.log(i)
-// So that it logs ( 0 then 1 then 2 then 3, etc). Run this code in your console to see what the output is.
+// Here we have a for loop that will iterate as long as i is less than or equal to 5. What we need to
+// do is console.log(i)
+// So that it logs ( 0 then 1 then 2 then 3, etc). Run this code in your console to see what the
+// output is.
+
+
+// function timeOutCounter() {
+//   for (var i = 0; i <= 5; i++) {
+//     setTimeout(function() {
+//       console.log(i);
+//     }, i * 1000)
+//   }
+//
+//   function newScope(i) {
+//     console.log(i)
+//   }
+// }
+// timeOutCounter();
+//   // To make this code work you will need to create a new scope for every iteration.
+//
+
 
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    delayMessage(i, i * 1000);
   }
 
-  function newScope(i) {
-    console.log(i)
+  function delayMessage(message, delay){
+    setTimeout(function(){
+      console.log(message);
+    }, delay)
   }
+  // function newScope(i) {
+  //   console.log(i)
+  // }
 }
 timeOutCounter();
-  // To make this code work you will need to create a new scope for every iteration.
-
+// To make this code work you will need to create a new scope for every iteration.
 
 
 
 
 //////////////////PROBLEM 8////////////////////
 
-var funcArray = [];
+// // var funcArray = [];
+var nums = [0,1,2,3,4,5];
+
+function makeClosure(num) {
+  return function() {
+    return num;
+  }
+}
+
+function makeFuncArray(nums) {
+  var functions = [];
+
+  for(var i = 0; i < nums.length; i++) {
+    var func = makeClosure(nums[i]);
+
+    functions.push(func);
+  }
+
+  return functions;
+}
+
+var funcArray = makeFuncArray(nums);
+funcArray[0]();
+funcArray[1]();
+funcArray[2]();
+funcArray[3]();
+funcArray[4]();
+funcArray[5]();
 
 /*
+
+
   Make the following code work
 
   funcArray[0]() //0
